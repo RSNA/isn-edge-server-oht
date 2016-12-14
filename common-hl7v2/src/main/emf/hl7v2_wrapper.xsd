@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*******************************************************************************
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
+-->
+<xsd:schema xmlns:tns="urn:org:openhealthtools:ihe:common:hl7v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:org:openhealthtools:ihe:common:hl7v2">
+ 
+<!-- Following are adaptations for HL7v2 messaging data types-->
+<xsd:complexType name="XON">
+	<xsd:sequence>
+		<xsd:element name="organizationName" type="xsd:string"/> <!-- XON.1 -->
+		<xsd:element name="idNumber" type="xsd:string"/> <!-- XON.3 -->
+		<xsd:element name="assigningAuthorityName" type="xsd:string"/> <!-- XON.6.1 -->
+		<xsd:element name="assigningAuthorityUniversalId" type="tns:oid"/> <!-- XON.6.2 -->
+		<xsd:element name="assigningAuthorityUniversalIdType" type="xsd:string"/> <!-- XON.6.3, bind to vocab -->
+	</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="xon" type="tns:XON"/>
+	
+<xsd:complexType name="XTN">
+	<xsd:sequence>
+		<!-- CP 524, 627 and 628 for IHE ITI TF v9 (2012-2013) -->
+		<xsd:element name="telecommunicationType" type="xsd:string"/> <!-- XTN.3 -->
+		<xsd:element name="telecommunicationAddress" type="xsd:string"/> <!-- XTN.4 -->
+		<!--  removed by CP 524, 627 and 628 for IHE ITI TF v9 (2012-2013) -->
+		<!-- <xsd:element name="unformattedTelephoneNumber" type="xsd:string"/> - XTN.12 -->
+	</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="xtn" type="tns:XTN"/>
+	
+<xsd:complexType name="CX">
+	<xsd:sequence>
+		<xsd:element name="idNumber" type="xsd:string"/> <!-- CX.1 -->
+		<xsd:element name="assigningAuthorityName" type="xsd:string"/> <!-- CX.4.1, Use of this subcomponent is prohibited in XDS, not other profiles -->
+		<xsd:element name="assigningAuthorityUniversalId" type="tns:oid"/> <!-- CX.4.2 -->
+		<xsd:element name="assigningAuthorityUniversalIdType" type="xsd:string"/> <!-- CX.4.3, bind to vocab -->
+	</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="cx" type="tns:CX"/> 
+	
+<xsd:complexType name="CXi">
+	<xsd:sequence>
+		<xsd:element name="idNumber" type="xsd:string"/> <!-- CXi.1 -->
+		<xsd:element name="assigningAuthorityName" type="xsd:string"/> <!-- CXi.4.1, Use of this subcomponent is prohibited in XDS, not other profiles -->
+		<xsd:element name="assigningAuthorityUniversalId" type="tns:oid"/> <!-- CXi.4.2 -->
+		<xsd:element name="assigningAuthorityUniversalIdType" type="xsd:string"/> <!-- CXi.4.3, bind to vocab -->
+		<xsd:element name="identifierTypeCode" type="xsd:string"/> <!-- CXi.5 -->
+	</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="cxi" type="tns:CXi"/> 
+
+	
+<xsd:complexType name="XCN">
+	<xsd:sequence>
+		<xsd:element name="idNumber" type="xsd:string"/> <!-- XCN.1 -->
+		<xsd:element name="familyName" type="xsd:string"/> <!-- XCN.2.1 -->
+		<xsd:element name="givenName" type="xsd:string"/> <!-- XCN.3 -->
+		<xsd:element name="otherName" type="xsd:string"/> <!-- XCN.4 -->
+		<xsd:element name="suffix" type="xsd:string"/> <!-- XCN.5 -->
+		<xsd:element name="prefix" type="xsd:string"/> <!-- XCN.6 -->
+		<xsd:element name="assigningAuthorityName" type="xsd:string"/> <!-- XCN.9.1 -->
+		<xsd:element name="assigningAuthorityUniversalId" type="tns:oid"/> <!-- XCN.9.2 -->
+		<xsd:element name="assigningAuthorityUniversalIdType" type="xsd:string"/> <!-- XCN.9.3 -->
+	</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="xcn" type="tns:XCN"/>
+
+<xsd:complexType name="XPN">
+	<xsd:sequence>
+		<xsd:element name="familyName" type="xsd:string"/> <!-- XPN.1.1 -->
+		<xsd:element name="givenName" type="xsd:string"/> <!-- XPN.2 -->
+		<xsd:element name="otherName" type="xsd:string"/> <!-- XPN.3 -->
+		<xsd:element name="suffix" type="xsd:string"/> <!-- XPN.4 -->
+		<xsd:element name="prefix" type="xsd:string"/> <!-- XPN.5 -->
+	</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="xpn" type="tns:XPN"/>
+
+<xsd:complexType name="XAD">
+	<xsd:sequence>
+		<xsd:element name="streetAddress" type="xsd:string"/> <!-- XAD.1.1 -->
+		<xsd:element name="otherDesignation" type="xsd:string"/> <!-- XAD.2 -->
+		<xsd:element name="city" type="xsd:string"/> <!-- XAD.3 -->
+		<xsd:element name="stateOrProvince" type="xsd:string"/> <!-- XAD.4 -->
+		<xsd:element name="zipOrPostalCode" type="xsd:string"/> <!-- XAD.5 -->
+		<xsd:element name="country" type="xsd:string"/> <!-- XAD.6 -->
+		<xsd:element name="countyParishCode" type="xsd:string"/> <!-- XAD.9 -->
+	</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="xad" type="tns:XAD"/>
+	
+<!-- taken from HL7 CDA R2 schema (ts type) which is the same as DTM -->
+<xsd:simpleType name="DTM">
+	<xsd:restriction base="xsd:string">
+		<xsd:pattern value="[0-9]{1,8}|([0-9]{9,14}|[0-9]{14,14}\.[0-9]+)([+\-][0-9]{1,4})?"/>
+	</xsd:restriction>
+</xsd:simpleType>
+<xsd:element name="dtm" type="tns:DTM"/>
+
+<!-- taken from HL7 CDA R2 schema -->
+<xsd:simpleType name="oid">
+	<xsd:restriction base="xsd:string">
+		<xsd:pattern value="([1-9][0-9]*)(\.[1-9][0-9]*)*"/>
+	</xsd:restriction>
+</xsd:simpleType>
+	
+<xsd:complexType name="SourcePatientInfoType"><!-- PID Segment -->
+	<xsd:sequence>
+		<xsd:element name="patientIdentifier" type="tns:CX" maxOccurs="unbounded"/> <!-- PID-3 -->
+		<xsd:element name="patientName" type="tns:XPN" maxOccurs="unbounded"/> <!-- PID-5 -->
+		<xsd:element name="patientDateOfBirth" type="tns:DTM"/> <!-- PID-7 -->
+		<xsd:element name="patientSex" type="xsd:string"/> <!-- PID-8, bind to restricted vocab in XDS: M,F,U,O -->
+		<xsd:element name="patientAddress" type="tns:XAD"/> <!-- PID-11 -->
+		<xsd:element name="patientPhoneHome" type="tns:XTN"/> <!-- PID-13 -->
+		<xsd:element name="patientPhoneBusiness" type="tns:XTN"/> <!-- PID-14 -->
+	</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="sourcePatientInfo" type="tns:SourcePatientInfoType"/>
+</xsd:schema>
+	

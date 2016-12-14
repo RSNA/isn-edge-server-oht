@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.rsna.oht-ihe</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.0.3</version>
+	</parent>
+	<artifactId>xds-metadata</artifactId>
+	<packaging>jar</packaging>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	<name>OHT IHE Profiles - XDS Metadata</name>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-eclipserun-plugin</artifactId>
+				<version>0.26.0</version>
+				
+
+				<configuration>					
+					<repositories>
+						<repository>
+							<id>juno</id>
+							<layout>p2</layout>
+							<url>http://download.eclipse.org/releases/juno</url>
+						</repository>
+					</repositories>
+					<dependencies>
+						<dependency>
+							<artifactId>org.eclipse.emf.codegen.ecore</artifactId>
+							<type>eclipse-plugin</type>
+						</dependency>
+						<dependency>
+							<artifactId>org.eclipse.xsd.ecore.importer</artifactId>
+							<type>eclipse-plugin</type>
+						</dependency>
+						<dependency>
+							<artifactId>org.eclipse.pde.core</artifactId>
+							<type>eclipse-plugin</type>
+						</dependency>
+					</dependencies>
+				</configuration>
+				
+	
+				<executions>
+					
+					<execution>
+						<id>xsd2gen</id>
+						<goals>
+							<goal>eclipse-run</goal>
+						</goals>
+		
+						<configuration>
+							<applicationsArgs>
+								<args>-data</args>
+								<args>target/workspace</args>
+								<args>-application</args>
+								<args>org.eclipse.xsd.ecore.importer.XSD2GenModel</args>
+								<args>src/main/emf/metadata.xsd</args>
+								<args>target/emf/resources/model/METADATA.genmodel</args>
+								<args>-modelProject</args>
+								<args>target/emf</args>
+								<args>src</args>
+								<args>-modelPluginID</args>
+								<args>org.openhealthtools.ihe.xds.metadata</args>
+								<args>-packages</args>
+								<args>urn:org:openhealthtools:ihe:xds:metadata</args>
+								<args>-refGenModel</args>
+								<args>platform:/plugin/org.eclipse.emf.ecore/model/XMLNamespace.genmodel</args>
+								<args>http://www.w3.org/XML/1998/namespace</args>
+							</applicationsArgs>
+							
+						</configuration>
+						
+						<phase>generate-sources</phase>
+					</execution>
+					
+					<execution>
+						<id>gen2java</id>
+						<goals>
+							<goal>eclipse-run</goal>
+						</goals>
+		
+						<configuration>
+							<applicationsArgs>
+								<args>-data</args>
+								<args>target/workspace</args>
+								<args>-application</args>
+								<args>org.eclipse.emf.codegen.ecore.Generator</args>
+								<args>-projects</args>
+								<args>target/emf</args>
+								<args>-model</args>
+								<args>target/emf/resources/model/METADATA.genmodel</args>
+							</applicationsArgs>
+							
+						</configuration>
+						
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.12</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/target/emf/src</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>common-hl7v2</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>

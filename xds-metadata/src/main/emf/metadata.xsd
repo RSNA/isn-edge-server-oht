@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:hl7="urn:org:openhealthtools:ihe:common:hl7v2" xmlns:tns="urn:org:openhealthtools:ihe:xds:metadata" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:org:openhealthtools:ihe:xds:metadata">
+
+	<!--  import the xml namespace for xml:lang tags -->
+ 	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="https://www.w3.org/2001/03/xml.xsd"/>
+
+	<!--  import the hl7v2 namespace -->
+ 	<xsd:import namespace="urn:org:openhealthtools:ihe:common:hl7v2" schemaLocation="../../../../common-hl7v2/src/main/emf/hl7v2_wrapper.xsd"/>
+
+  	<!-- Used by the Registry to represent multiple submissions -->
+ 	 <xsd:complexType name="MultipleDocumentSetType">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="documentSet" type="tns:ProvideAndRegisterDocumentSetType"/>
+		</xsd:sequence>
+  	</xsd:complexType>
+  	<xsd:element name="MultipleDocumentSet" type="tns:MultipleDocumentSetType"/> 
+	
+  	<!-- Used by the document source to submit documents. Used by the Registry to group responses. -->
+  	<xsd:complexType name="ProvideAndRegisterDocumentSetType">
+		<xsd:sequence>
+			<xsd:element name="submissionSet" type="tns:SubmissionSetType"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="folder" type="tns:FolderType"/>
+			<xsd:element maxOccurs="unbounded" name="documentEntry" type="tns:DocumentEntryType"/>
+		</xsd:sequence>
+  	</xsd:complexType>
+  	<xsd:element name="ProvideAndRegisterDocumentSet" type="tns:ProvideAndRegisterDocumentSetType"/>
+
+  	<xsd:complexType name="DocumentEntryType">
+		<xsd:sequence>
+			<!-- 2007-2008 IHE CP 208 - (corrected in 2011 to multi-valued author)  -->	
+			<xsd:element minOccurs="0" maxOccurs ="unbounded" name="authors" type="tns:AuthorType"/>
+			<xsd:element minOccurs="0" name="availabilityStatus" type="tns:AvailabilityStatusType"/>
+			<xsd:element minOccurs="0" name="classCode" type="tns:CodedMetadataType"/>
+			<xsd:element minOccurs="0" name="comments" type="tns:InternationalStringType"/>
+			<!-- 2007-2008 IHE CP 208 - multi valued confidentialityCode  -->	
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="confidentialityCode" type="tns:CodedMetadataType"/>
+			<xsd:element minOccurs="0" name="creationTime" type="hl7:DTM"/>
+			<xsd:element minOccurs="0" name="entryUUID" type="xsd:string"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="eventCode" type="tns:CodedMetadataType"/>
+			<!-- 2007-2008 IHE CP 187 - extra metadata is allowed as 'slots' -->
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="extension" type="tns:ExtensionType"/>
+			<xsd:element minOccurs="0" name="formatCode" type="tns:CodedMetadataType"/>
+			<xsd:element minOccurs="0" name="hash" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="healthCareFacilityTypeCode" type="tns:CodedMetadataType"/>
+			<xsd:element minOccurs="0" name="languageCode" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="legalAuthenticator" type="hl7:XCN"/>
+			<xsd:element minOccurs="0" name="mimeType" type="xsd:string"/>
+			<!-- 2007-2008 IHE CP 117 (type code on parent document) -->
+			<xsd:element minOccurs="0" name="parentDocument" type="tns:ParentDocumentType"/>
+			<xsd:element minOccurs="0" name="patientId" type="hl7:CX"/>
+			<xsd:element minOccurs="0" name="practiceSettingCode" type="tns:CodedMetadataType"/>
+			<xsd:element minOccurs="0" maxOccurs ="unbounded" name="referenceIdList" type="hl7:CXi"/>
+			<!-- Extension for XDS.b - repositoryUniqueId-->
+			<xsd:element minOccurs="0" name="repositoryUniqueId" type="tns:oid"/>
+			<xsd:element minOccurs="0" name="serviceStartTime" type="hl7:DTM"/>
+			<xsd:element minOccurs="0" name="serviceStopTime" type="hl7:DTM"/>
+			<xsd:element minOccurs="0" name="sourcePatientId" type="hl7:CX"/>
+			<xsd:element minOccurs="0" name="size" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="sourcePatientInfo" type="hl7:SourcePatientInfoType"/>
+			<xsd:element minOccurs="0" name="title" type="tns:InternationalStringType"/>
+			<xsd:element minOccurs="0" name="typeCode" type="tns:CodedMetadataType"/>
+			<xsd:element minOccurs="0" name="uniqueId" type="tns:oid_extension"/>
+			<xsd:element minOccurs="0" name="uri" type="xsd:string"/>
+		</xsd:sequence>
+		<xsd:attribute default="false" name="existing" type="xsd:boolean" use="optional"/>
+	</xsd:complexType>
+	<xsd:element name="DocumentEntry" type="tns:DocumentEntryType"/>
+
+	<xsd:complexType name="SubmissionSetType">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="associatedDocuments" type="xsd:string"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="associatedFolders" type="xsd:string"/>
+			<!-- 2007-2008 IHE CP 208 - single valued author  -->	
+			<xsd:element minOccurs="0" name="author" type="tns:AuthorType"/>
+			<xsd:element minOccurs="0" name="availabilityStatus" type="tns:AvailabilityStatusType"/>
+			<xsd:element minOccurs="0" name="comments" type="tns:InternationalStringType"/>
+			<xsd:element minOccurs="0" name="contentTypeCode" type="tns:CodedMetadataType"/>
+			<xsd:element minOccurs="0" name="entryUUID" type="xsd:string"/>
+			<!-- 2008-2009 IHE CP 362 - intendedRecipient on the Submission Set for XDR/XDM support -->
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="intendedRecipient" type="tns:IntendedRecipientType"/>
+			<xsd:element minOccurs="0" name="patientId" type="hl7:CX"/>
+			<xsd:element minOccurs="0" name="sourceId" type="tns:oid"/>
+			<xsd:element minOccurs="0" name="submissionTime" type="hl7:DTM"/>
+			<xsd:element minOccurs="0" name="title" type="tns:InternationalStringType"/>
+			<xsd:element minOccurs="0" name="uniqueId" type="tns:oid"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="SubmissionSet" type="tns:SubmissionSetType"/>
+
+	<xsd:complexType name="FolderType">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="associatedDocuments" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="availabilityStatus" type="tns:AvailabilityStatusType"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="code" type="tns:CodedMetadataType"/>
+			<xsd:element minOccurs="0" name="comments" type="tns:InternationalStringType"/>
+			<xsd:element minOccurs="0" name="entryUUID" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="lastUpdateTime" type="hl7:DTM"/>
+			<xsd:element minOccurs="0" name="patientId" type="hl7:CX"/>
+			<xsd:element minOccurs="0" name="title" type="tns:InternationalStringType"/>
+			<xsd:element minOccurs="0" name="uniqueId" type="tns:oid"/>
+        	</xsd:sequence>
+		<xsd:attribute default="false" name="existing" type="xsd:boolean" use="optional"/>
+	</xsd:complexType>
+	<xsd:element name="Folder" type="tns:FolderType"/>
+
+    <!-- For the author classification -->
+	<xsd:complexType name="AuthorType">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="authorInstitution" type="hl7:XON"/>
+			<xsd:element minOccurs="0" name="authorPerson" type="hl7:XCN"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="authorRole" type="xsd:string"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="authorSpeciality" type="xsd:string"/>
+			<!-- Added by CP 524, 627 and 628 for IHE ITI TF v9 (2012-2013) -->
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="authorTelecommunication" type="hl7:XTN"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- For the intendedRecipient (CP #362 IHE 2008-2009) -->
+		<xsd:complexType name="IntendedRecipientType">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="person" type="hl7:XCN"/>
+			<xsd:element minOccurs="0" name="organization" type="hl7:XON"/>
+			<!-- Added by CP 524, 627 and 628 for IHE ITI TF v9 (2012-2013) -->
+			<xsd:element minOccurs="0" name="telecommunication" type="hl7:XTN"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- for arbitrary metadata extensions (CP #187 IHE 2007-2008) -->
+	<xsd:complexType name="ExtensionType">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="xsd:string"/>
+			<xsd:element minOccurs="1" name="name" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- For metadata codes -->
+	<xsd:complexType name="CodedMetadataType">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="code" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="displayName" type="tns:InternationalStringType"/>
+			<xsd:element minOccurs="0" name="schemeName" type="xsd:string"/>
+			<xsd:element minOccurs="0" name="schemeUUID" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- for the parent document -->
+	<xsd:complexType name="ParentDocumentType">
+		<xsd:sequence>
+			<xsd:element minOccurs="1" name="parentDocumentRelationship">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:enumeration value="XFRM"/>
+						<xsd:enumeration value="RPLC"/>
+						<xsd:enumeration value="APND"/>
+						<xsd:enumeration value="XFRM_RPLC"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element minOccurs="1" name="parentDocumentId" type="tns:uuid"/>
+			<xsd:element minOccurs="0" name="parentDocumentRelationshipCode" type="tns:CodedMetadataType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+
+	<!-- adapted from HL7 CDA R2 xsd:schema (uuid type with pre-pend of "urn:uuid:") -->
+	<xsd:simpleType name="uuid">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="urn:uuid:[0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- taken from HL7 CDA R2 xsd:schema -->
+	<xsd:simpleType name="oid">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([1-9][0-9]*)(\.[1-9][0-9]*)*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- adapted from HL7 CDA R2 xsd:schema (oid type with optional suffix of "(^[0-9]+)") -->
+	<xsd:simpleType name="oid_extension">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([1-9][0-9]*)(\.[1-9][0-9]*)*(^[0-9]+)?"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Taken from ebXML2.1 xsd:schema -->
+	<xsd:complexType name="InternationalStringType">
+		<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+			<xsd:element name="LocalizedString" type="tns:LocalizedStringType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- Taken from ebXML2.1 xsd:schema, xsd:attribute value changed from an ebXML type to xds:string -->
+	<xsd:complexType name="LocalizedStringType">
+		<xsd:attribute default="en-us" ref="xml:lang"/>
+		<xsd:attribute default="UTF-8" name="charset"/>
+		<xsd:attribute name="value" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<!-- Taken from ebXML2.1 rim xsd:schema -->
+	<xsd:simpleType name="AvailabilityStatusType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Submitted"/>
+			<xsd:enumeration value="Approved"/>
+			<xsd:enumeration value="Deprecated"/>
+			<xsd:enumeration value="Withdrawn"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>
