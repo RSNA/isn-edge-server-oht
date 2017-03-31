@@ -13,6 +13,18 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<name>OHT IHE Profiles - Common Web Services/Axis2</name>
+
+	<repositories>
+	  <repository>
+	    <id>rsna-isn-thirdparty</id>
+	    <name>RSNA ISN Thirdparty Repo</name>
+	    <url>https://raw.github.com/RSNA/isn-maven-repo/master/thirdparty/</url>
+	    <snapshots>
+	      <enabled>false</enabled>
+	    </snapshots>
+	  </repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
