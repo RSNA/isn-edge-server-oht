@@ -30,6 +30,17 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<name>OHT IHE Profiles</name>
+
+	<repositories>
+	  <repository>
+	    <id>rsna-isn-thirdparty</id>
+	    <name>RSNA ISN Thirdparty Repo</name>
+	    <url>https://raw.github.com/RSNA/isn-maven-repo/master/thirdparty/</url>
+	    <snapshots>
+	      <enabled>false</enabled>
+	    </snapshots>
+	  </repository>
+	</repositories>
 	
 	<dependencyManagement>
 		<dependencies>
